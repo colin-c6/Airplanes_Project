@@ -55,7 +55,7 @@ class AirportAtlas():
             self.csv_reader = csv.reader(csv_file) # reader expects values to be seperated by a commma.
                                         # need to iterate over csv_reader at present its just an object in memory
             self.airport_dict = {column[4] : Airport(column[3],column[4],column[6],column[7]) for column in self.csv_reader}
-        
+                    
         return self.airport_dict
 
        
