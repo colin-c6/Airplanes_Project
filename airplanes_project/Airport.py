@@ -80,7 +80,7 @@ class AirportAtlas():
         phi1 = (90 - float(lat1)) * (2 * pi) / 360
         phi2 = (90 - float(lat2)) * (2 * pi) / 360
         distance = acos(sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2)) * radius_earth
-        distance = int(distance)
+        distance = distance
         return distance
     
     
@@ -94,11 +94,15 @@ class AirportAtlas():
         
         self.object1 = self.airport_dict[self.code1]
         self.lat1 = self.object1.latitude
+        #print(self.lat1)
         self.long1 = self.object1.longitude
+        #print(self.long1)
         
         self.object2 = self.airport_dict[self.code2]
         self.lat2 = self.object2.latitude
+        #print(self.lat2)
         self.long2 = self.object2.longitude
+        #print(self.long2)
         self.distance_between = AirportAtlas.greatCircledList(self.lat1, self.long1, self.lat2, self.long2)
         return self.distance_between
     
@@ -112,11 +116,15 @@ class AirportAtlas():
         
         self.name_country = self.airport_dict[self.start]
         self.name_country = self.name_country.country 
+        #print("country name:", self.name_country)
         #find the currency code for the country given the name of the country 
         self.currency_code = self.get_currency.currency_dict[self.name_country]
+        #print("country_code",self.currency_code)
         self.currency_rate = float(self.get_rates.currencyRate_dict[self.currency_code])
+        #print("currency rate",self.currency_rate)
 
         self.dist = self.getDistanceBetweenAirports(self.start, self.destination)
+        #print("distance is:", self.dist)
         self.cost = self.dist * self.currency_rate
         self.cost = int(ceil(self.cost))
         return self.cost

@@ -47,23 +47,22 @@ class Aircrafts():
         
         
     def airplanePassFuel(self,dis,aircraft):
+        
+        ''' This function checks whether the aircraft passes the fuel check '''
         self.dis = dis
         self.aircraft = aircraft
         #self.aircraft_obj = aircraft_obj
         
-        print("Printing distance to be checked: ", self.dis)
-        print("Printing the aircraft: ", self.aircraft)
-        print("Printing capacity of the aircraft: ",self.aircraft_dict[self.aircraft])
+        #print("Printing distance to be checked: ", self.dis)
+        #print("Printing the aircraft: ", self.aircraft)
+        #print("Printing capacity of the aircraft: ",self.aircraft_dict[self.aircraft])
         self.count +=1
-        print("count",self.count)
-        print("------------------------------------")
+        #print("count",self.count)
+        #print("------------------------------------")
         
         var=False
         for x in self.dis:
-            print("x is:", x)
-            print("------------------------------------")
             if x > int(self.aircraft_dict[self.aircraft]):
-                print("------------------------------------")
                 var =False
                 break
                 

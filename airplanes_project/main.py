@@ -16,6 +16,7 @@ def main():
     aircraftPass = Aircrafts('./data/aircraft.csv')   
     test_itinerary = Itinerary(aircraftPass,atlas)
     test_itinerary.findBestRoute('./data/testRouteData.csv')
+    #print(atlas.getCostOfTrip('ELU', 'EGR'))
     
 if __name__ == '__main__':
     main()
