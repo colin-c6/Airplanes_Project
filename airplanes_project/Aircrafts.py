@@ -39,7 +39,7 @@ class Aircrafts():
         self.distance = distance
         
         if (self.value_type== "imperial"):
-            self.distance = int(self.distance)
+            self.distance = float(self.distance)
             return self.distance *1.60934
         
         else:
@@ -48,11 +48,12 @@ class Aircrafts():
         
     def airplanePassFuel(self,dis,aircraft):
         
-        ''' This function checks whether the aircraft passes the fuel check '''
+        ''' This function checks whether the aircraft passes the fuel check. Can accept single distances of lists '''
         self.dis = dis
+        #print("distance recieved:", self.dis)
         self.aircraft = aircraft
+
         #self.aircraft_obj = aircraft_obj
-        
         #print("Printing distance to be checked: ", self.dis)
         #print("Printing the aircraft: ", self.aircraft)
         #print("Printing capacity of the aircraft: ",self.aircraft_dict[self.aircraft])
@@ -61,12 +62,26 @@ class Aircrafts():
         #print("------------------------------------")
         
         var=False
-        for x in self.dis:
-            if x > int(self.aircraft_dict[self.aircraft]):
-                var =False
-                break
-                
+        if isinstance(self.dis, int) or isinstance(self.dis, float) :
+            
+            #print(int(self.aircraft_dict[self.aircraft]))
+            if self.dis > int(self.aircraft_dict[self.aircraft]):
+                    var =False
+                    
             else:
-                var = True
+                    var = True
+      
+            return var
         
-        return var
+        #this part is used for brute force soltuion
+        else:
+
+            for x in self.dis:
+                if x > int(self.aircraft_dict[self.aircraft]):
+                    var =False
+                    break
+                    
+                else:
+                    var = True
+            
+            return var

@@ -1,7 +1,6 @@
-import collections
-import math 
 import csv
 import itertools
+from data_structures import Graph, Queue
 
 class Itinerary():
     
@@ -14,52 +13,66 @@ class Itinerary():
         
         self.aircraftPass = aircraftPass
         self.atlasObj = atlasObj
-        self.count = 0
         
     
     def findBestRoute(self, inputCSV):
         
         ''' This method is the centralhub of the bestRoute file and it drives 
         the methods that find the best route and then writes them to a file '''
-        graph = Graph()
+        graph = Graph() #creating instance of graph that will be used to make directed graph
+
+        #https://stackoverflow.com/questions/12277864/python-clear-csv-file
+        #truncates the file if data already exists in it
+        filename = "./data/BestRoutes.csv"
+        f = open(filename, "w+") 
+        f.close()
         
-        writeToFileList = [["Origin","Dest1","Dest2","Dest3","Dest4","Home","Cost"]]
-        self.inputSet = set()
+        writeToFileList = [["Origin","Dest1","Dest2","Dest3","Dest4","Home","Cost"]] #header for output
+        self.inputSet = [] #needs to be a list because aircraft is included
         self.inputCSV = inputCSV
         
-        with open(self.inputCSV) as csvfile:
-            readCSV = csv.reader(csvfile, delimiter=',') 
+        with open(self.inputCSV) as csvfile:  
+            readCSV = csv.reader(csvfile, delimiter=',')  #takes each cell in the csv file and stores in list
             for line in readCSV:
-                self.inputSet = line # i think this changes it back to a list. have a look
+                self.inputSet = line 
             
-                aircraft, modified_route = self.modifyingRoute(self.inputSet)
-                print("You have requested the best route for: ", modified_route, " with aircraft: ", aircraft,"\n")
-                self.make_graph(modified_route,graph)
+                aircraft, modified_route = self.modifyingRoute(self.inputSet) #finding the aircraft if it exsists and the complete route
+                self.make_graph(modified_route,graph) #make the graph with the cities
+                
+                #If there is no airport specified in a csv
+                if len(aircraft) == 0:
+                    print("You have requested the best route for: ", modified_route, " with no specified aircraft ","\n")
+                    allPossibleRoutes = self.allPossibleRoutesTaken(modified_route)
+                    best_journey = self.distCostOfAllJourneys(allPossibleRoutes,graph)
+                    aircraft= "with no aircraft specified this route"
+                
+                # this is activated if there is an airport present
+                else:
+                    print("You have requested the best route for: ", modified_route, " with aircraft: ", aircraft,"\n")
+                    allPossibleRoutes = self.allPossibleRoutesTaken(modified_route) #finding all the possible routes
+                    best_journey = self.distCostOfAllJourneysAircraft(aircraft,allPossibleRoutes,graph) #find the best journey
 
-                allPossibleRoutes = self.allPossibleRoutesTaken(modified_route)
-                distanceAllJourneys, costAllJourneys = self.distCostOfAllJourneys(aircraft,allPossibleRoutes,graph)
-                if len(distanceAllJourneys) == 0:
+
+                #if there is no possible journey 
+                if len(best_journey) == 0:
                     print(aircraft, "is unable to complete journey \n")
                     print("=============================================================================================================================")
                     continue
-                
-                else:
-                    costOfEachPossibleRoute = self.allRouteCosts(costAllJourneys)
-                    bestRouteByCost, bestRouteByIndex = self.bestRoute(costOfEachPossibleRoute)
-                     
-                    print(aircraft ," has met all specifications and the best route to take is: ", allPossibleRoutes[bestRouteByIndex[0]], "and the cost is: ", bestRouteByCost[0],"\n")
+                 
+                else:  
+                    print(aircraft ," meets all specifications and the best route to take is: ", best_journey[0], "and the cost is:    €",best_journey[1],"\n")
                     print("=============================================================================================================================")
-                   
-                    routeCostList = allPossibleRoutes[bestRouteByIndex[0]]
-                    routeCostList.append(bestRouteByCost[0])
-                    writeToFileList.append(routeCostList)
-                             
-            with open('BestRoutes.csv', "a") as csv_file:
-                        writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
-                        for line in writeToFileList:
-                            writer.writerow(line)
+                    final_itinery = best_journey[0]
+                    final_itinery.append(best_journey[1])
+                    writeToFileList.append(final_itinery)  
+                          
+   
+            with open('./data/BestRoutes.csv', "a") as csv_file:
+                writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+                for line in writeToFileList:
+                    writer.writerow(line)
                         #https://stackoverflow.com/questions/2084069/create-a-csv-file-with-values-from-a-python-list
-        return ''
+        
     
     
     def modifyingRoute(self, route):
@@ -67,12 +80,16 @@ class Itinerary():
         ''' this method modifys the route by extracting the aircraft used and appending the starting 
         location to the end of the list '''
         
-        #print(type(route))
         self.route = route
-        self.aircraft = self.route[-1] #aircraft is the last element in the route. may need to change because this is optional 
-        self.route = self.route[:-1]
-    
-        return self.aircraft, self.route
+        if len(self.route) == 5: #error handling. if there is no aircraft given then it just returns the route 
+            return '',self.route
+        
+        elif len(self.route) == 6:
+            self.aircraft = self.route[-1] #aircraft is the last element in the route. 
+            self.route = self.route[:-1]
+            return self.aircraft, self.route
+        else:
+            print("There is an error in the input. It does not input the correct number of airports and/or aircrafts")
         
     
     
@@ -81,16 +98,16 @@ class Itinerary():
         ''' this method creates a directional weighted graph. the Cities are the nodes, they are connected by edges and 
         these edges weights is equal to the cost of the journey '''
         
-        self.cities = cities
+        self.cities = cities 
         for x in self.cities:
-            graph.add_vertex(x)
+            graph.add_vertex(x) #adds the nodes to the graph (in a set)
         
-        for i in self.cities:
+        for i in self.cities: 
             for j in self.cities:
                 if i != j:
 
                     cost = self.atlasObj.getCostOfTrip(i, j)
-                    graph.add_edge(i, j, cost)
+                    graph.add_edge(i, j, cost) #creates the weighted edges between the graphs based on the cost of going betwen them
 
         return ''
 
@@ -98,130 +115,84 @@ class Itinerary():
     
     def allPossibleRoutesTaken(self, modifRoutes):
          
-        ''' this method accepts a modified route with the last stop the 
-        same as the starting point and calculates all the possible combinations
-        for the route  '''
+        ''' this method accepts a modified route calculates all the possible permutations
+        for the route  source: https://docs.python.org/2/library/itertools.html'''
          
         self.modifRoutes = modifRoutes
-        possibleRoutes = list(itertools.permutations(self.modifRoutes[1:]))
-        # The permeautatiosn method result in tuples embedded in a list. needed to convert these to lists    
-        possibleRoutesConvert=[]
+        possibleRoutes = list(itertools.permutations(self.modifRoutes[1:])) #possible routes is an array of tuples needed to convert these to lists    
+        possibleRoutesConvert=[]                                            # for manipulation        
         for x in possibleRoutes:
-            possibleRoutesConvert.append(list(x))
-     
+            possibleRoutesConvert.append(list(x)) #the middle 4 cities are now stored in a list
+      
         # adding the start and finish airport to allPossibleRoutes
         startFinishAirport = [self.modifRoutes[0],]
-        allPossibleRoutes = []
+        allPossibleRoutes = Queue() #creating a queue to store the possible combinations.
         for possRoute in possibleRoutesConvert:
-            allPossibleRoutes.append(startFinishAirport +possRoute+ startFinishAirport)
-             
-        #print("Printing all the possibly routes: ")
-        #print(allPossibleRoutes)
-        #print("------------------------------------")
+            allPossibleRoutes.enqueue(tuple(startFinishAirport +possRoute+ startFinishAirport)) #adding the start and end airport to each possibility
+                                                                                                # and placing in a queue
         return allPossibleRoutes
-#         
-#         
-#         
-    def distCostOfAllJourneys(self,aircraft, possibleRoutes,graph):
+
+
+    def distCostOfAllJourneys(self, possibleRoutes,graph):
          
-        ''' This method accepts the aircraft and all the possible routes in an intinery. It calculates the distance of each 
-        journey in an itineary. It then checks that its possible for the aircraft to complete the journey. Finally it
-        only returns routes that can be completed, along with their costs. '''
+        ''' This method accepts the aircraft, a graph and all the possible routes in an intinery. It checks that a route can be completed given
+        the aircraft and if it can, it calculates the total cost of the journey and finally returns the cheapest journey'''
+        
+        self.possibleRoutes = possibleRoutes #this is a queue
+        self.graph_costs = graph.weights #
+
+        min_cost = 9999999999999999 #default
+        best_cost = []
+
+        while self.possibleRoutes.size() != 0: #while the queue isnt empty
+            total_cost = 0 # default for total cost is 0
+            route = self.possibleRoutes.dequeue() #take a route
+             
+            for k in range (0,len(route)-1,1): # need to use -1 because im using k+1   
+                total_cost += self.graph_costs[(route[k], route[k+1])] #add the total cost of the journey from the graph created earlier
+                    
+            if total_cost < min_cost: #check that its cheaper than the current cheapest
+                best_cost.clear() #remove whats in the list
+                best_cost.append(list(route)) #add the best route
+                best_cost.append(total_cost) #add the cost of the best route 
+                min_cost = total_cost # update the minimum cost
+
+        return best_cost #return the best route
+    
+    
+    
+    
+         
+    def distCostOfAllJourneysAircraft(self,aircraft, possibleRoutes,graph):
+         
+        ''' This method accepts the aircraft, a graph and all the possible routes in an intinery. It checks that a route can be completed given
+        the aircraft and if it can, it calculates the total cost of the journey and finally returns the cheapest journey'''
         
         self.aircraft= aircraft
         print("Please wait while we check that aircraft ",self.aircraft," meets the required specifications.\n") 
-        self.possibleRoutes = possibleRoutes
-        self.graph_costs = graph.weights
-        
-        #Getting all the distances for each individual journey in a possible route and their corresponding costs    
-        all_distances= []
-        all_costs = []
-        for j in range (0,len(self.possibleRoutes),1):
-            #print(self.possibleRoutes[j])
-            indiviualDistances= []
-            individualCosts=[]
-            
-            for k in  range (0,len(self.possibleRoutes[0])-1,1): # need to use -1 because im using k+1     
-                indiviualDistances.append(self.atlasObj.getDistanceBetweenAirports(self.possibleRoutes[j][k], self.possibleRoutes[j][k+1]))
-                individualCosts.append(self.graph_costs[(self.possibleRoutes[j][k], self.possibleRoutes[j][k+1])])
- 
-            if(self.aircraftPass.airplanePassFuel(indiviualDistances,self.aircraft)):
-                all_distances.append(indiviualDistances)
-                all_costs.append(individualCosts)
-         
-        #print("Printing all the distances: ")
-        #print(all_distances)
-        #print("------------------------------------")
-         
-        #print("Printing cost of all the distances: ")
-        #print(all_costs)
-        #print("------------------------------------")
-         
-        return all_distances, all_costs
-         
-#   
-#     
-#     
-    def allRouteCosts(self, routeLegsCost):
-         
-        ''' this method adds the cost of each leg of an itinerary and returns the total cost in a list'''
-         
-        self.routeLegsCost = routeLegsCost  
-        total_cost=[]
-        for n in  range (0,len(self.routeLegsCost),1): 
-            total=0
-            for m in range (0,len(self.routeLegsCost[0]),1):
-                total += self.routeLegsCost[n][m]
-            total_cost.append(total)
+        self.possibleRoutes = possibleRoutes #this is a queue
+        self.graph_costs = graph.weights #
+
+        min_cost = 9999999999999999 #default
+        best_cost = []
+
+        while self.possibleRoutes.size() != 0: #while the queue isnt empty
+            total_cost = 0 # default for total cost is 0
+            route = self.possibleRoutes.dequeue() #take a route
              
-        #print("Printing cost in total for each itinery: ")
-        #print(total_cost)
-        #print("------------------------------------")
-        return total_cost        
-         
-     
-    def bestRoute(self,costOfEachRoute):
-         
-        ''' this method returns sorted cost of each itinery and the index of it'''
-         
-        self.costOfEachRoute = costOfEachRoute
-        sortedTotalCosts = sorted(self.costOfEachRoute) 
-        sortedCostsIndex = sorted(range(len(self.costOfEachRoute)), key=lambda k: self.costOfEachRoute[k]) #sorted array by index
-         
-        #print("Printing sorted cost in total for each itinery: ")
-        #print(sortedTotalCosts)
-        #print()
-        #print("sorting the costs in total by index: ")
-        #print(sortedCostsIndex)
-        #print("------------------------------------")
-         
-        return sortedTotalCosts, sortedCostsIndex
+            for k in range (0,len(route)-1,1): # need to use -1 because im using k+1   
+                distance = self.atlasObj.getDistanceBetweenAirports(route[k], route[k+1]) #get distance of first two cities in route
+                if not (self.aircraftPass.airplanePassFuel(distance,self.aircraft)): #check that the aircraft can fly that distance
+                    break # if it cant then move to another route 
+                else:
+                    total_cost += self.graph_costs[(route[k], route[k+1])] #add the total cost of the journey from the graph created earlier
+                    
+            if total_cost < min_cost: #check that its cheaper than the current cheapest
+                best_cost.clear() #remove whats in the list
+                best_cost.append(list(route)) #add the best route
+                best_cost.append(total_cost) #add the cost of the best route 
+                min_cost = total_cost # update the minimum cost
 
-class Graph:
-    
-    def __init__(self):
-        
-        #vertices/nodes are all the airports
-        self.vertices= set()
-        self.edges = collections.defaultdict(list)
-        self.weights = {}
+        return best_cost #return the best route
     
     
-    def add_vertex(self,value):
-        self.vertices.add(value)
-
-    
-    def add_edge(self, from_vertex, to_vertex, distance): 
-        if from_vertex == to_vertex:
-            pass
-        
-        self.edges[from_vertex].append(to_vertex)
-        self.weights[(from_vertex, to_vertex)] = distance
-        
-
-    def __str__(self):
-        string = "vertices: " + str(self.vertices) + "\n"
-        string += "edges: " + str(self.edges) + "\n"
-        string += "weights: " + str(self.weights)
-        return string
-
