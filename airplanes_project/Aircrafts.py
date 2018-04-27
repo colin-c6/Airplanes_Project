@@ -9,7 +9,6 @@ class Aircrafts():
     def __init__(self, airplanesFile):
         self.airplanesFile = airplanesFile
         self.aircraftDict(self.airplanesFile) #sends file to the aircraftDict function to create the dictonary 
-        self.count = 0;
     
     
     @lru_cache(maxsize=2)
@@ -24,10 +23,8 @@ class Aircrafts():
             for column in self.airplane_csv_reader:
 
                 distance_in_km = self.metricsConversion(column[2],column[4]) #send the type and distance to the converter
-                self.aircraft_dict[column[0]] = distance_in_km 
+                self.aircraft_dict[column[0]] = distance_in_km #airplane is now asociated with a distance in a dictonary
         
-        #for i in self.aircraft_dict:
-            #print (i,self.aircraft_dict[i]) prints out the contents of the dictonary
         return
     
     def metricsConversion(self,value_type,distance):
@@ -38,7 +35,7 @@ class Aircrafts():
         self.value_type = value_type
         self.distance = distance
         
-        if (self.value_type== "imperial"):
+        if (self.value_type== "imperial"): #if the plane max distance is in imperial then convert it 
             self.distance = float(self.distance)
             return self.distance *1.60934
         
@@ -49,38 +46,26 @@ class Aircrafts():
     def airplanePassFuel(self,dis,aircraft):
         
         ''' This function checks whether the aircraft passes the fuel check. Can accept single distances of lists '''
-        self.dis = dis
-        #print("distance recieved:", self.dis)
+        self.distance = dis
         self.aircraft = aircraft
 
-        #self.aircraft_obj = aircraft_obj
-        #print("Printing distance to be checked: ", self.dis)
-        #print("Printing the aircraft: ", self.aircraft)
-        #print("Printing capacity of the aircraft: ",self.aircraft_dict[self.aircraft])
-        self.count +=1
-        #print("count",self.count)
-        #print("------------------------------------")
-        
         var=False
-        if isinstance(self.dis, int) or isinstance(self.dis, float) :
-            
-            #print(int(self.aircraft_dict[self.aircraft]))
-            if self.dis > int(self.aircraft_dict[self.aircraft]):
+        #this part is for greedy algorithm part
+        if isinstance(self.distance,int) or isinstance(self.distance, float): #check that the distance is a float or int
+            if self.distance > int(self.aircraft_dict[self.aircraft]): #if the distance is greater than the planes capacity 
                     var =False
-                    
             else:
-                    var = True
+                    var = True #if the plane is capable of flying the journey
       
             return var
         
-        #this part is used for brute force soltuion
+        
+        #this part is used for brute force soltuion (accepts a list)
         else:
-
-            for x in self.dis:
-                if x > int(self.aircraft_dict[self.aircraft]):
+            for elem in self.distance: # for each distance in the distances
+                if elem > int(self.aircraft_dict[self.aircraft]): #if the distance is greater than the plan capacity return false
                     var =False
-                    break
-                    
+                    break    
                 else:
                     var = True
             

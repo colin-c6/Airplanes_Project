@@ -31,7 +31,7 @@ class AirportAtlas():
     
     ''' Controls the airport atlas and contains methods to find cost and distance of routes '''
     
-    airport_dict = {}
+    airport_dict = {} # initalising an empty dictonary for the airport atlas
     def __init__(self,csvFile):
         
         ''' Initsalizing method reads in the airports csv file, and creates the airport, 
@@ -41,8 +41,8 @@ class AirportAtlas():
         self.createAirportDict(self.csvAirportFile)
         
         #Create the currency and currency rate dictonaries
-        self.get_currency = Currencys('./data/countrycurrency.csv')
-        self.get_rates = CurrencyRates('./data/currencyrates.csv')
+        self.get_currency = Currencys('./data/countrycurrency.csv') # initalising the currency and currency rate classes which makes 
+        self.get_rates = CurrencyRates('./data/currencyrates.csv') # dictonaries for these.
     
     
     @lru_cache(maxsize=2)
@@ -56,6 +56,7 @@ class AirportAtlas():
             self.csv_reader = csv.reader(csv_file) # reader expects values to be seperated by a commma.
                                         # need to iterate over csv_reader at present its just an object in memory
             self.airport_dict = {column[4] : Airport(column[3],column[4],column[6],column[7]) for column in self.csv_reader}
+            #create the airport dictonary
                     
         return self.airport_dict
 
@@ -93,11 +94,11 @@ class AirportAtlas():
         self.code1 = code1
         self.code2 = code2
         
-        self.object1 = self.airport_dict[self.code1]
+        self.object1 = self.airport_dict[self.code1] # finding the first airport object stored in the dictonary
         self.lat1 = self.object1.latitude
         self.long1 = self.object1.longitude
         
-        self.object2 = self.airport_dict[self.code2]
+        self.object2 = self.airport_dict[self.code2] # finding the second airport object stored in the dictonary
         self.lat2 = self.object2.latitude
         self.long2 = self.object2.longitude
         
@@ -111,16 +112,16 @@ class AirportAtlas():
         
         self.start = start
         self.destination = destination
-        self.name_country = self.airport_dict[self.start]
+        self.name_country = self.airport_dict[self.start] #getting the names of the countrys
         self.name_country = self.name_country.country 
 
         #find the currency code for the country given the name of the country 
         self.currency_code = self.get_currency.currency_dict[self.name_country]
         self.currency_rate = float(self.get_rates.currencyRate_dict[self.currency_code])
 
-        self.dist = self.getDistanceBetweenAirports(self.start, self.destination)
-        self.cost = self.dist * self.currency_rate
-        self.cost = int(self.cost)
+        self.dist = self.getDistanceBetweenAirports(self.start, self.destination) #get the distance 
+        self.cost = self.dist * self.currency_rate # multiply by currency rate 
+        self.cost = int(self.cost) # find the cost 
         
         return self.cost
 

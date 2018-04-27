@@ -135,8 +135,7 @@ class Itinerary():
 
     def distCostOfAllJourneys(self, possibleRoutes,graph):
          
-        ''' This method accepts the aircraft, a graph and all the possible routes in an intinery. It checks that a route can be completed given
-        the aircraft and if it can, it calculates the total cost of the journey and finally returns the cheapest journey'''
+        ''' This method accepts a graph and all the possible routes in an intinery. It calculates the total cost of the journey and finally returns the cheapest journey'''
         
         self.possibleRoutes = possibleRoutes #this is a queue
         self.graph_costs = graph.weights #
