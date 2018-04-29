@@ -1,5 +1,6 @@
 import collections
 
+#adapted from lab 7
 class Graph:
     
     def __init__(self):
@@ -28,20 +29,98 @@ class Graph:
         string += "weights: " + str(self.weights)
         return string
 
+
 #http://interactivepython.org/runestone/static/pythonds/BasicDS/ImplementingaQueueinPython.html
 class Queue:
     def __init__(self):
-        self.items = []
+        self.unordered_queue = UnorderedList()
 
     def isEmpty(self):
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0,item)
+        self.unordered_queue.add(item)
 
     def dequeue(self):
-        return self.items.pop()
-        
+        temp = self.unordered_queue.returnLast()
+        self.unordered_queue.remove(temp)
+        return temp
+    
+    def size(self):
+        return self.unordered_queue.size()
+    
+
+#Adapted from: http://interactivepython.org/runestone/static/pythonds/BasicDS/ImplementinganUnorderedListLinkedLists.html 
+class Node:
+    def __init__(self,initdata):
+        self.data = initdata
+        self.next = None
+
+    def getData(self):
+        return self.data
+
+    def getNext(self):
+        return self.next
+
+    def setData(self,newdata):
+        self.data = newdata
+
+    def setNext(self,newnext):
+        self.next = newnext
+
+
+class UnorderedList:
+
+    def __init__(self):
+        self.head = None
+
+    def isEmpty(self):
+        return self.head == None
+
+    def add(self,item):
+        temp = Node(item)
+        temp.setNext(self.head)
+        self.head = temp
 
     def size(self):
-        return len(self.items)
+        current = self.head
+        count = 0
+        while current != None:
+            count = count + 1
+            current = current.getNext()
+
+        return count
+
+    def search(self,item):
+        current = self.head
+        found = False
+        while current != None and not found:
+            if current.getData() == item:
+                found = True
+            else:
+                current = current.getNext()
+
+        return found
+
+    def remove(self,item):
+        current = self.head
+        previous = None
+        found = False
+        while not found:
+            if current.getData() == item:
+                found = True
+            else:
+                previous = current
+                current = current.getNext()
+
+        if previous == None:
+            self.head = current.getNext()
+        else:
+            previous.setNext(current.getNext())
+    
+    def returnLast(self):
+        
+        temp = self.head
+        while(temp.next is not None):
+            temp = temp.next
+        return temp.getData()

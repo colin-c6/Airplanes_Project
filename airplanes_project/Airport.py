@@ -8,8 +8,6 @@ import os
 import csv
 from math import pi, sin, cos, acos 
 from functools import lru_cache
-from Currency import Currencys, CurrencyRates
-
 
 class Airport():
     '''
@@ -32,27 +30,24 @@ class AirportAtlas():
     ''' Controls the airport atlas and contains methods to find cost and distance of routes '''
     
     airport_dict = {} # initalising an empty dictonary for the airport atlas
-    def __init__(self,csvFile):
+    def __init__(self,csv_file):
         
         ''' Initsalizing method reads in the airports csv file, and creates the airport, 
         currency and curreny rate dictonaries '''
                 
-        self.csvAirportFile = csvFile
-        self.createAirportDict(self.csvAirportFile)
+        self.csv_airport_file = csv_file
+        self.createAirportDict(self.csv_airport_file)
         
-        #Create the currency and currency rate dictonaries
-        self.get_currency = Currencys('./data/countrycurrency.csv') # initalising the currency and currency rate classes which makes 
-        self.get_rates = CurrencyRates('./data/currencyrates.csv') # dictonaries for these.
-    
+         
     
     @lru_cache(maxsize=2)
-    def createAirportDict(self, csvFile):
+    def createAirportDict(self, csv_file):
         
-        ''' Method to create the Airport Dictonary. uses the 3 letter airport code and
+        ''' Method to create the Airport Dictionary. uses the 3 letter airport code and
         creates airport objects '''
         
-        self.csvFile = csvFile
-        with open(os.path.join(self.csvFile),"rt", encoding="utf8" ) as csv_file: # r is for reading the file
+        self.csv_file = csv_file
+        with open(os.path.join(self.csv_file),"rt", encoding="utf8" ) as csv_file: # r is for reading the file
             self.csv_reader = csv.reader(csv_file) # reader expects values to be seperated by a commma.
                                         # need to iterate over csv_reader at present its just an object in memory
             self.airport_dict = {column[4] : Airport(column[3],column[4],column[6],column[7]) for column in self.csv_reader}
@@ -69,8 +64,7 @@ class AirportAtlas():
         self.code = code
         return (self.airport_dict[self.code])
     
-    
-    
+
     @staticmethod
     def greatCircledList(lat1, long1, lat2, long2):
         
@@ -106,21 +100,24 @@ class AirportAtlas():
         return self.distance_between
     
     
-    def getCostOfTrip(self, start, destination):
+    def getCostOfTrip(self, start, destination, currency_obj, currency_rate_obj):
         
         ''' Given the starting and ending destinations, this method finds the cost of a single trip '''
         
         self.start = start
         self.destination = destination
-        self.name_country = self.airport_dict[self.start] #getting the names of the countrys
+        self.currency_obj = currency_obj
+        self.currency_rate_obj = currency_rate_obj
+        
+        self.name_country = self.airport_dict[self.start] #getting the names of the start country
         self.name_country = self.name_country.country 
 
         #find the currency code for the country given the name of the country 
-        self.currency_code = self.get_currency.currency_dict[self.name_country]
-        self.currency_rate = float(self.get_rates.currencyRate_dict[self.currency_code])
+        self.currency_code = self.currency_obj.currency_dict[self.name_country]
+        self.currency_rate = float(self.currency_rate_obj.currency_rate_dict[self.currency_code])
 
-        self.dist = self.getDistanceBetweenAirports(self.start, self.destination) #get the distance 
-        self.cost = self.dist * self.currency_rate # multiply by currency rate 
+        self.distance = self.getDistanceBetweenAirports(self.start, self.destination) #get the distance 
+        self.cost = self.distance * self.currency_rate # multiply by currency rate 
         self.cost = int(self.cost) # find the cost 
         
         return self.cost

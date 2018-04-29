@@ -6,20 +6,20 @@ from functools import lru_cache
 class Aircrafts():
     aircraft_dict = {}
       
-    def __init__(self, airplanesFile):
-        self.airplanesFile = airplanesFile
-        self.aircraftDict(self.airplanesFile) #sends file to the aircraftDict function to create the dictonary 
+    def __init__(self, airplanes_file):
+        self.airplanes_file = airplanes_file
+        self.aircraftDict(self.airplanes_file) #sends file to the aircraftDict function to create the dictonary 
     
     
     @lru_cache(maxsize=2)
-    def aircraftDict(self, airplaneFile):
+    def aircraftDict(self, airplanes_file):
         
         ''' This function creates a new aircraft dictonary 
             with all distances in metric units(km) '''
           
-        self.airplaneFile = airplaneFile
-        with open(os.path.join(self.airplaneFile),"rt", encoding="utf8" ) as airplaneFile: # r is for reading the file
-            self.airplane_csv_reader = csv.reader(airplaneFile)
+        self.airplanes_file = airplanes_file
+        with open(os.path.join(self.airplanes_file),"rt", encoding="utf8" ) as airplanes_file: # r is for reading the file
+            self.airplane_csv_reader = csv.reader(airplanes_file)
             for column in self.airplane_csv_reader:
 
                 distance_in_km = self.metricsConversion(column[2],column[4]) #send the type and distance to the converter
@@ -29,7 +29,7 @@ class Aircrafts():
     
     def metricsConversion(self,value_type,distance):
         
-        ''' This funtion takes in the metric value and current distance and if 
+        ''' This function takes in the metric value and current distance and if 
             distance is in imperial format(miles) it converts it to metric(km) '''
        
         self.value_type = value_type
@@ -43,13 +43,13 @@ class Aircrafts():
             return self.distance
         
         
-    def airplanePassFuel(self,dis,aircraft):
+    def airplanePassFuel(self,distance,aircraft):
         
         ''' This function checks whether the aircraft passes the fuel check. Can accept single distances of lists '''
-        self.distance = dis
+        self.distance = distance
         self.aircraft = aircraft
 
-        var=False
+        var = False
         #this part is for greedy algorithm part
         if isinstance(self.distance,int) or isinstance(self.distance, float): #check that the distance is a float or int
             if self.distance > int(self.aircraft_dict[self.aircraft]): #if the distance is greater than the planes capacity 
@@ -62,8 +62,8 @@ class Aircrafts():
         
         #this part is used for brute force soltuion (accepts a list)
         else:
-            for elem in self.distance: # for each distance in the distances
-                if elem > int(self.aircraft_dict[self.aircraft]): #if the distance is greater than the plan capacity return false
+            for distance in self.distance: # for each distance in the distances
+                if distance > int(self.aircraft_dict[self.aircraft]): #if the distance is greater than the plan capacity return false
                     var =False
                     break    
                 else:
