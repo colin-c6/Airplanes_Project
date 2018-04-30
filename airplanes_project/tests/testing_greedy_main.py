@@ -1,6 +1,6 @@
 
 import unittest
-from airplanes_project import Airport, Currency, Aircrafts, greedy
+from airplanes_project import Airport, Currency, Aircrafts, greedy_algo
 
 
 
@@ -15,7 +15,7 @@ class Test_Greedy(unittest.TestCase):
         self.currency_obj = Currency.Currencys('./currency_test_input.csv') # initalising the currency and currency rate classes which makes 
         self.rate_obj = Currency.CurrencyRates('./currency_rate_test_input.csv') # dictonaries for these.
         self.aircraft_obj = Aircrafts.Aircrafts('./airplanes_test_input.csv')   
-        self.test_itinerary_obj = greedy.GreedyItinery(self.aircraft_obj, self.atlas_obj, self.currency_obj, self.rate_obj)
+        self.test_itinerary_obj = greedy_algo.GreedyItinery(self.aircraft_obj, self.atlas_obj, self.currency_obj, self.rate_obj)
         
     def test_createVertices(self):
         

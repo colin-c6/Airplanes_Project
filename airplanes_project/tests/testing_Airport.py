@@ -1,6 +1,6 @@
 import unittest
 from airplanes_project import Airport, Currency
-from builtins import int
+
 
 
 class Test_Aircraft(unittest.TestCase):

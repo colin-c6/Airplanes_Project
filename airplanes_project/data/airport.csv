@@ -1492,7 +1492,6 @@
 5810,Samaná El Catey International Airport,Samana,Dominican Republic,AZS,MDCY,19.267,-69.742,30,-4,U,America/Santo_Domingo
 7301,Constanza Airport,Constanza,Dominican Republic,COZ,MDCZ,18.907626,-70.719852,3931,-4,U,America/Santo_Domingo
 7911,Herrera International Airport,Santo Domingo,Dominican Republic,HEX,MDHE,18.475,-69.975,22,-4,U,America/Santo_Domingo
-3310,Presidente Nicolau Lobato Intl,Dili,East Timor,DIL,WPDL,-8.546553,125.524719,25,9,U,Asia/Dili
 2668,Chachoan,Ambato,Ecuador,ATF,SEAM,-1.212067,-78.574636,8502,-5,U,America/Guayaquil
 2670,Francisco De Orellana,Coca,Ecuador,OCC,SECO,-0.462886,-76.986842,834,-5,U,America/Guayaquil
 2671,Mariscal Lamar,Cuenca,Ecuador,CUE,SECU,-2.889467,-78.984397,8306,-5,U,America/Guayaquil
@@ -1536,9 +1535,6 @@
 1892,El Salvador Intl,San Salvador,El Salvador,SAL,MSLP,13.440947,-89.055728,101,-6,U,America/El_Salvador
 890,Bata,Bata,Equatorial Guinea,BSG,FGBT,1.905469,9.805681,13,1,N,Africa/Malabo
 891,Malabo,Malabo,Equatorial Guinea,SSG,FGSL,3.755267,8.708717,76,1,N,Africa/Malabo
-3966,Assab Intl,Assab,Eritrea,ASA,HHSB,13.071783,42.645006,46,3,U,Africa/Asmera
-3967,Asmara Intl,Asmara,Eritrea,ASM,HHAS,15.291853,38.910667,7661,3,U,Africa/Asmera
-3968,Massawa Intl,Massawa,Eritrea,MSW,HHMS,15.669989,39.370103,194,3,U,Africa/Asmera
 412,Kardla,Kardla,Estonia,KDL,EEKA,58.990756,22.830733,18,2,E,Europe/Tallinn
 413,Kuressaare,Kuressaare,Estonia,URE,EEKE,58.229883,22.509494,14,2,E,Europe/Tallinn
 414,Parnu,Parnu,Estonia,EPU,EEPU,58.419044,24.472819,47,2,E,Europe/Tallinn
@@ -3772,7 +3768,7 @@
 6003,Kunsan Air Base,Kunsan,South Korea,KUV,RKJK,35.903756,126.615906,29,9,U,Asia/Seoul
 6006,Yangyang International Airport,Sokcho / Gangneung,South Korea,YNY,RKNY,38.061311,128.669164,241,9,U,Asia/Seoul
 8346,Gimpo International Airpot,Seoul,South Korea,SEL,\N,37.558311,126.790586,58,9,N,Asia/Seoul
-1173,Juba,Juba,South Sudan,JUB,HSSJ,4.872006,31.601117,1513,3,U,Africa/Juba
+8346,Gimpo International Airpot,Seoul,South Korea,SEL,\N,37.558311,126.790586,58,9,N,Asia/Seoul
 1051,Fuerteventura,Fuerteventura,Spain,FUE,GCFV,28.452717,-13.863761,83,0,E,Atlantic/Canary
 1052,Hierro,Hierro,Spain,VDE,GCHI,27.814847,-17.887056,103,0,E,Atlantic/Canary
 1053,La Palma,Santa Cruz De La Palma,Spain,SPC,GCLA,28.626478,-17.755611,107,0,E,Atlantic/Canary

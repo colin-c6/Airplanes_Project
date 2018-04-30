@@ -50,7 +50,7 @@ class Queue:
         return self.unordered_queue.size()
     
 
-#Adapted from: http://interactivepython.org/runestone/static/pythonds/BasicDS/ImplementinganUnorderedListLinkedLists.html 
+#Adapted from: http://interactivepython.org/runestone/static/pythonds/BasicDS/ImplementinganUnorderedListLinkedLists.html
 class Node:
     def __init__(self,initdata):
         self.data = initdata

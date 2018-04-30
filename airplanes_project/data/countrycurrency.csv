@@ -66,7 +66,6 @@ Ecuador,Équateur,EC,ECU,218,EQA,ec,EQ,EC,593,ECU,EC,73,ECU,USD,ECUADOR,2,US Dol
 Egypt,Égypte,EG,EGY,818,EGY,ua,EG,ET,20,EGY,EG,40765,EGY,EGP,EGYPT,2,Egyptian Pound,818,Yes
 El Salvador,El Salvador,SV,SLV,222,SLV,es,ES,ES,503,SLV,ES,75,ESA,USD,EL SALVADOR,2,US Dollar,840,Yes
 Equatorial Guinea,Guinée Équatoriale,GQ,GNQ,226,GNE,eg,GQ, ,240,EQG,EK,76,GEQ,XAF,EQUATORIAL GUINEA,0,CFA Franc BEAC,950,Yes
-Eritrea,Érythrée,ER,ERI,232,ERI,ea, , ,291,ERI,ER,77,ERI,ERN,ERITREA,2,Nakfa,232,Yes
 Estonia,Estonie,EE,EST,233,EST,er,EO,EST,372,EST,EN,78,EST,EUR,ESTONIA,2,Euro,978,Yes
 Ethiopia,Éthiopie,ET,ETH,231,ETH,et,ET,ETH,251,ETH,ET,79,ETH,ETB,ETHIOPIA,2,Ethiopian Birr,230,Yes
 Falkland Islands,"Falkland, Îles (Malvinas)",FK,FLK,238,FLK,fk,FK, ,500,FLK,FK,81,FLK,FKP,FALKLAND ISLANDS (MALVINAS),2,Falkland Islands Pound,238,Territory of GB
@@ -205,7 +204,6 @@ Solomon Islands,"Salomon, Îles",SB,SLB,90,SLM,bp,SO, ,677,SOL,BP,225,SOL,SBD,SO
 Somalia,Somalie,SO,SOM,706,SOM,so,SI,SO,252,SOM,SO,226,SOM,SOS,SOMALIA,2,Somali Shilling,706,Yes
 South Africa,Afrique du Sud,ZA,ZAF,710,AFS,sa,ZA,ZA,27,RSA,SF,227,RSA,ZAR,SOUTH AFRICA,2,Rand,710,Yes
 South Georgia and the South Sandwich Islands,Géorgie du Sud-Et-Les Îles Sandwich du Sud,GS,SGS,239, ,xs, , ,500,,SX,228, ,,SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS,,No universal currency,,Territory of GB
-South Sudan,Soudan du Sud,SS,SSD,728,SSD,sd,,,211,,OD,,,SSP,SOUTH SUDAN,2,South Sudanese Pound,728,Yes
 Spain,Espagne,ES,ESP,724,E,sp,SP,E,34,ESP,SP,229,ESP,EUR,SPAIN,2,Euro,978,Yes
 Sri Lanka,Sri Lanka,LK,LKA,144,CLN,ce,SB,CL,94,SRI,CE,231,SRI,LKR,SRI LANKA,2,Sri Lanka Rupee,144,Yes
 Sudan,Soudan,SD,SDN,729,SDN,sj,SU,SUD,249,SUD,SU,40764,SUD,SDG,SUDAN,2,Sudanese Pound,938,Yes
