@@ -33,6 +33,16 @@ From the project directory (in Terminal), run this command
 python main_exhaustive.py
 ```
 
+Running the Program With Your Own CSV file
+-------------------
+
+From the project directory (in Terminal), run this command
+
+```sh
+python main_greedy.py 'path to csv'
+or
+python main_exhaustive.py 'path to csv'
+```
 
 Running the Tests
 ------------------
