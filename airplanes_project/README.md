@@ -10,8 +10,12 @@ Installation and Setup
 Run the following commands in Terminal:
 
 ```sh
-git clone https://github.com/colin-c6/Airplanes_Project.git && cd /airplanes_project
-conda env create -f environment.yml
+git clone https://github.com/colin-c6/Airplanes_Project.git 
+cd Airplanes_Project
+cd airplanes_project
+
+conda create -n yourenvname python=3.6
+source activate yourenvname
 pip install -r requirements.txt
 ```
 

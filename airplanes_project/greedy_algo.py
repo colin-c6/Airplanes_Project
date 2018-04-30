@@ -27,7 +27,7 @@ class GreedyItinery():
         write_to_file.add(["Origin","Dest1","Dest2","Dest3","Dest4","Home","Cost(Euro)","Aircraft"]) #header for output
         self.input_csv = inputCSV
          
-        with open(self.input_csv) as csv_file:
+        with open(self.input_csv,encoding='utf-8-sig') as csv_file:
             read_csv = csv.reader(csv_file, delimiter=',')  #takes each cell in the csv file
             for line in read_csv:
                                 

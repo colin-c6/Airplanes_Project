@@ -23,7 +23,7 @@ def main():
     if len(sys.argv) > 1: #To read a csv inputted from the command line 
         test_itinerary_obj.findBestRoute(sys.argv[1])
     else: #local testRouteData file I have 
-        test_itinerary_obj.findBestRoute('./data/testRouteData.csv')
+        test_itinerary_obj.findBestRoute('./data/testRoute.csv')
 
 if __name__ == '__main__':
     main()

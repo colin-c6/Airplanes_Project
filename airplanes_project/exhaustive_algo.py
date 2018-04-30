@@ -34,7 +34,7 @@ class Itinerary():
         self.inputCSV = inputCSV
         route_count = 1
         
-        with open(self.inputCSV) as csvfile:  
+        with open(self.inputCSV, encoding='utf-8-sig') as csvfile:  
             read_csv = csv.reader(csvfile, delimiter=',')  #takes each cell in the csv file and stores in list
             
             for line in read_csv:
